@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   MDBBtn,
   MDBContainer,
@@ -15,8 +15,42 @@ import {
 } from "mdb-react-ui-kit";
 
 import "./Login.css";
+import { AuthContext } from "../../UserContext/UserContext";
 
 const Login = () => {
+  const { googleSignIn, signInUser, setUser, setLoading } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const roleValue = "buyer";
+    signInUser(email, password, roleValue)
+      .then((result) => {
+        const user = result.user;
+        const currentUser = {
+          email: user.email,
+        };
+
+        setUser(user);
+
+        form.reset();
+      })
+
+      .catch((error) => {
+        setLoading(false);
+        console.error(error.message);
+      });
+  };
+  const handleGoogleSignIn = () => {
+    googleSignIn().then((result) => {});
+  };
+
   return (
     <MDBContainer fluid>
       <MDBCard className="text-black m-5" style={{ borderRadius: "25px" }}>
@@ -30,31 +64,42 @@ const Login = () => {
               <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                 Sign in to your account
               </p>
-              <Button variant="danger">Google Sign In</Button>
+              <Button variant="danger" onClick={handleGoogleSignIn}>
+                Google Sign In
+              </Button>
               <div className="or">
                 <hr />
                 <p>or</p>
                 <hr />
               </div>
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="envelope me-3" size="lg" />
-                <MDBInput label="Your Email" id="form2" type="email" />
-              </div>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    required
+                  />
+                </Form.Group>
 
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="lock me-3" size="lg" />
-                <MDBInput label="Password" id="form3" type="password" />
-              </div>
-
-              <MDBBtn className="mb-4" size="lg">
-                Sign In
-              </MDBBtn>
-              <p className=" fw-bold mt-2 pt-1 mb-0">
-                Don't have an account?
-                <Link to="/register" className="link-success">
-                  Register
-                </Link>
-              </p>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Login
+                </Button>
+                <p className="small fw-bold mt-2 pt-1 mb-0">
+                  Don't have an account?
+                  <Link to="/register" className="link-success">
+                    Register now
+                  </Link>
+                </p>
+              </Form>
             </MDBCol>
 
             <MDBCol

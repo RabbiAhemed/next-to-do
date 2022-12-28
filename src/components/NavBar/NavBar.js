@@ -46,12 +46,18 @@ const NavBar = () => {
             </NavDropdown> */}
           </Nav>
           <Nav>
-            <Link to="sign-in" className="text-white m-1">
-              SignIn
-            </Link>
-            <Link to="register" className="text-white m-1">
-              Register
-            </Link>
+            {user ? (
+              <Link onClick={logOutUser} className="text-white m-1">
+                SignOut
+              </Link>
+            ) : (
+              <Link className="text-white m-1">SignIn</Link>
+            )}
+            {!user && (
+              <Link to="register" className="text-white m-1">
+                Register
+              </Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
