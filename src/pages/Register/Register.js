@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   MDBBtn,
   MDBContainer,
@@ -15,8 +15,37 @@ import {
 } from "mdb-react-ui-kit";
 
 import "./Register.css";
+import { AuthContext } from "../../UserContext/UserContext";
 
 const Register = () => {
+  const { createUser, updateUser } = useContext(AuthContext);
+  const [success, setSuccess] = useState(false);
+  const [userRole, setUserRole] = useState("buyer");
+  const [userEmail, setUserEmail] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  //
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(name, email, password);
+    //
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        setSuccess(true);
+        updateUser(name).then(() => {
+          // Profile updated!
+          // ...
+        });
+        form.reset();
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <MDBContainer fluid>
       <MDBCard className="text-black m-5" style={{ borderRadius: "25px" }}>
@@ -28,41 +57,49 @@ const Register = () => {
               className="order-2 order-lg-1 d-flex flex-column align-items-center"
             >
               <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                Register
+                Create your account
               </p>
 
-              <div className="d-flex flex-row align-items-center mb-4 ">
-                <MDBIcon fas icon="user me-3" size="lg" />
-                <MDBInput
-                  label="Your Name"
-                  id="form1"
-                  type="text"
-                  className="w-100"
-                />
-              </div>
+              <Form onSubmit={handleSubmit}>
+                <Form.Label className="text-muted">Name</Form.Label>
+                <Form.Group className="mb-3" controlId="formBasicName">
+                  <Form.Control
+                    required
+                    type="text"
+                    name="name"
+                    placeholder="Enter Name"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label className="text-muted">Email address</Form.Label>
+                  <Form.Control
+                    required
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                  />
+                </Form.Group>
 
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="envelope me-3" size="lg" />
-                <MDBInput label="Your Email" id="form2" type="email" />
-              </div>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label className="text-muted">Password</Form.Label>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </Form.Group>
 
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="lock me-3" size="lg" />
-                <MDBInput label="Password" id="form3" type="password" />
-              </div>
-
-              <div className="mb-4">
-                <MDBCheckbox
-                  name="flexCheck"
-                  value=""
-                  id="flexCheckDefault"
-                  label="Subscribe to our newsletter"
-                />
-              </div>
-
-              <MDBBtn className="mb-4" size="lg">
-                Register
-              </MDBBtn>
+                <Button variant="info" type="submit">
+                  Register
+                </Button>
+                <p className="small fw-bold mt-2 pt-1 mb-0">
+                  Already Registered?
+                  <Link to="/login" className="link-success">
+                    Login
+                  </Link>
+                </p>
+              </Form>
             </MDBCol>
 
             <MDBCol

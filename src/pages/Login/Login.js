@@ -14,7 +14,7 @@ import {
   MDBCheckbox,
 } from "mdb-react-ui-kit";
 
-// import "./Register.css";
+import "./Login.css";
 
 const Login = () => {
   return (
@@ -28,9 +28,14 @@ const Login = () => {
               className="order-2 order-lg-1 d-flex flex-column align-items-center"
             >
               <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                Sign In
+                Sign in to your account
               </p>
-
+              <Button variant="danger">Google Sign In</Button>
+              <div className="or">
+                <hr />
+                <p>or</p>
+                <hr />
+              </div>
               <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="envelope me-3" size="lg" />
                 <MDBInput label="Your Email" id="form2" type="email" />
@@ -41,18 +46,15 @@ const Login = () => {
                 <MDBInput label="Password" id="form3" type="password" />
               </div>
 
-              <div className="mb-4">
-                <MDBCheckbox
-                  name="flexCheck"
-                  value=""
-                  id="flexCheckDefault"
-                  label="Subscribe to our newsletter"
-                />
-              </div>
-
               <MDBBtn className="mb-4" size="lg">
                 Sign In
               </MDBBtn>
+              <p className=" fw-bold mt-2 pt-1 mb-0">
+                Don't have an account?
+                <Link to="/register" className="link-success">
+                  Register
+                </Link>
+              </p>
             </MDBCol>
 
             <MDBCol

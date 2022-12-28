@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../UserContext/UserContext";
 import "./NavBar.css";
 const NavBar = () => {
+  const { logOutUser, user } = useContext(AuthContext);
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -21,10 +24,10 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto text-white">
-            <Link to="addTask" className="text-white m-1">
+            <Link to="/addTask" className="text-white m-1">
               Add Task
             </Link>
-            <Link to="my-task" className="text-white m-1">
+            <Link to="/my-task" className="text-white m-1">
               My Task
             </Link>
             <Link to="completed-task" className="text-white m-1">
