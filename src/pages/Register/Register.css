@@ -1,0 +1,8 @@
+.register-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.colored {
+  color: #03b664;
+}
