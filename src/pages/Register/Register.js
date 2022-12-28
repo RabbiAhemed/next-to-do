@@ -1,17 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import {
-  MDBBtn,
   MDBContainer,
   MDBRow,
   MDBCol,
   MDBCard,
   MDBCardBody,
   MDBCardImage,
-  MDBInput,
-  MDBIcon,
-  MDBCheckbox,
 } from "mdb-react-ui-kit";
 
 import "./Register.css";
@@ -20,12 +17,12 @@ import { AuthContext } from "../../UserContext/UserContext";
 const Register = () => {
   const { createUser, updateUser } = useContext(AuthContext);
   const [success, setSuccess] = useState(false);
-  const [userRole, setUserRole] = useState("buyer");
-  const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   //
+  const notify = (message) => toast(message);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -37,6 +34,7 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
+        notify("Registration successful");
         setSuccess(true);
         updateUser(name).then(() => {
           // Profile updated!
@@ -115,6 +113,7 @@ const Register = () => {
           </MDBRow>
         </MDBCardBody>
       </MDBCard>
+      <Toaster />;
     </MDBContainer>
   );
 };
