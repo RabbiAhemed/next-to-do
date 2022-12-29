@@ -54,7 +54,7 @@ const Register = () => {
               lg="6"
               className="order-2 order-lg-1 d-flex flex-column align-items-center"
             >
-              <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+              <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 styled-text">
                 Create your account
               </p>
 
@@ -93,8 +93,8 @@ const Register = () => {
                 </Button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Already Registered?
-                  <Link to="/login" className="link-success">
-                    Login
+                  <Link to="/sign-in" className="link-success">
+                    Sign In
                   </Link>
                 </p>
               </Form>

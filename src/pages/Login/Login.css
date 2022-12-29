@@ -1,3 +1,6 @@
+.styled-text {
+  font-family: "Lobster", cursive;
+}
 .or {
   display: flex;
   justify-content: center;
