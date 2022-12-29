@@ -30,7 +30,7 @@ const NavBar = () => {
             <Link to="/my-task" className="text-white px-3">
               My Task
             </Link>
-            <Link to="completed-task" className="text-white px-3">
+            <Link to="/completed-task" className="text-white px-3">
               Completed Task
             </Link>
           </Nav>
